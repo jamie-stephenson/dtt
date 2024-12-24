@@ -1,12 +1,17 @@
 .ipynb_checkpoints
 __pycache__
+
 /data/
 /models/
 /tokenizers/
+
 .vscode
+
 /wandb/
 /logs/
+
 test*
+
 build
 /dist/
 uv.lock
