@@ -10,7 +10,7 @@ sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.11
 sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.11-venv
 python3.11 -m venv ~/envs/dtt
 source ~/envs/dtt/bin/activate
-pip install $mount_dir/dtt/
+pip install git+https://github.com/jamie-stephenson/dtt.git
 deactivate
 #---------------------     
 
