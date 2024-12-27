@@ -1,0 +1,15 @@
+# Ignore version control
+.git
+.gitignore
+
+# Environment 
+.venv
+.vscode
+
+# Data
+data/
+tokenizers/
+
+# Build directories
+dist/
+build/

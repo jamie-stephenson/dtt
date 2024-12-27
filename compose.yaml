@@ -1,0 +1,37 @@
+services:
+
+  master:
+    build:
+      dockerfile: ./docker/master/Dockerfile
+    container_name: node00
+    hostname: node00
+    command: >
+      bash -c "
+        chown -R ubuntu:ubuntu /home/ubuntu/shared &&
+        ssh-keygen -t ed25519 -f /root/.ssh/id_ed25519 -N '' -q &&
+        cp /root/.ssh/id_ed25519.pub /home/ubuntu/shared &&
+        exec tail -f /dev/null
+      "
+    volumes:
+      - shared:/home/ubuntu/shared
+
+  worker:
+    depends_on:
+      - master
+    build: ./docker/worker
+    container_name: node01
+    hostname: node01
+    command: >
+      bash -c "
+        chown -R ubuntu:ubuntu /home/ubuntu/shared &&
+        cat /home/ubuntu/shared/id_ed25519.pub >> /home/ubuntu/.ssh/authorized_keys &&
+        service ssh restart &&
+        exec tail -f /dev/null
+      "
+    volumes:
+      - shared:/home/ubuntu/shared
+
+volumes:
+
+  shared:
+    name: shared
