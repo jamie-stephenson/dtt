@@ -7,14 +7,11 @@ RUN apt-get update && \
     vim \
     sudo \
     curl \
+    ca-certificates \
     apt-utils \
     openssh-server \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-USER ubuntu
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-USER root
 
 # Docker containers max sys uid is 999 but slurm defaults to a larger one
 RUN groupadd -r slurm && useradd -r -g slurm -u 999 slurm
