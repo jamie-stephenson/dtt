@@ -3,6 +3,8 @@
 
 mount_dir="$1"
 
+mkdir -p $mount_dir/slurmlogs
+
 #-PYTHON ENVIRONMENT--
 # If you want a specific python version you can use deadsnakes:
 sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.12-venv

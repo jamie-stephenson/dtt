@@ -8,8 +8,6 @@
 #SBATCH --time=
 #SBATCH --output=./slurmlogs/%j_train.log
 
-mkdir -p ./slurmlogs
-
 # Activate the virtual environment
 source ~/envs/dtt/bin/activate
 

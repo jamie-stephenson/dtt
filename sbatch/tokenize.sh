@@ -6,8 +6,6 @@
 #SBATCH --time=
 #SBATCH --output=./slurmlogs/%j_tokenize.log
 
-mkdir -p ./slurmlogs
-
 source ~/envs/dtt/bin/activate
 
 # Train a tokenizer on a dataset AND use it to 
