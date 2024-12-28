@@ -10,7 +10,7 @@ mkdir -p $mount_dir/slurmlogs
 sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.12-venv
 python3 -m venv ~/envs/dtt
 source ~/envs/dtt/bin/activate
-pip install git+https://github.com/jamie-stephenson/dtt.git
+pip install https://github.com/jamie-stephenson/bpekit/releases/download/v0.1.0-test/bpekit-0.1.0-cp310-abi3-linux_x86_64.whl
 deactivate
 #---------------------     
 
