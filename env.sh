@@ -12,8 +12,7 @@ fi
 #-PYTHON ENVIRONMENT--
 # If you want a specific python version you can use deadsnakes:
 sudo NEEDRESTART_MODE=l add-apt-repository -y ppa:deadsnakes/ppa
-sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.11
-sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.11-venv
+sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.11 python3.11-venv python3.11-dev
 python3.11 -m venv ~/envs/dtt
 source ~/envs/dtt/bin/activate
 pip install git+https://github.com/jamie-stephenson/dtt.git
