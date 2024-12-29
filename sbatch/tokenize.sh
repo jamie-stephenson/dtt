@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=tokenize
-#SBATCH --partition=workers
-#SBATCH --nodes=
-#SBATCH --ntasks-per-node=
-#SBATCH --time=
+#SBATCH --partition=universe
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=28
+#SBATCH --time=1:00:00
 #SBATCH --output=./slurmlogs/%j_tokenize.log
 
 source ~/envs/dtt/bin/activate

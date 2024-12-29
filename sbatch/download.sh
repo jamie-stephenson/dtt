@@ -10,4 +10,4 @@ source ~/envs/dtt/bin/activate
 
 # Train a tokenizer on a dataset AND use it to 
 # encode that same dataset  
-mpirun --bind-to none dtt download -c configs/config.yaml 
+srun dtt download -c configs/config.yaml 

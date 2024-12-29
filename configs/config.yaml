@@ -46,7 +46,7 @@ temp: 1
 val_prompt: Hello, my name is dtt. DTT stands for
 
 # -----LOGGING-----
-wandb: True
+wandb: False
 eff_batch_per_log: 100
 
 # -----PATH TEMPLATES-----
