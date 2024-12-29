@@ -3,7 +3,11 @@
 
 mount_dir="$1"
 
-mkdir -p $mount_dir/slurmlogs
+current_host=$(hostname)
+
+if [ "$current_host" = "node00" ]; then
+    mkdir -p slurmlogs
+fi
 
 #-PYTHON ENVIRONMENT--
 # If you want a specific python version you can use deadsnakes:
