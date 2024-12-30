@@ -1,13 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=download
-#SBATCH --partition=workers
-#SBATCH --nodes=
+#SBATCH --partition=universe
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=
+#SBATCH --time=1:00:00
 #SBATCH --output=./slurmlogs/%j_download.log
 
 source ~/envs/dtt/bin/activate
 
-# Train a tokenizer on a dataset AND use it to 
-# encode that same dataset  
 srun dtt download -c configs/config.yaml 
