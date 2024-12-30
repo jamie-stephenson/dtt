@@ -183,7 +183,7 @@ class Config:
         for template_name, template in templates.items():
             try:
                 path = template.format(**self.__dict__)
-                paths_dict[template_name] = Path(path)
+                paths_dict[template_name] = Path(path).expanduser()
             except KeyError as e:
                 print(f"Warning: Missing key {e} for template '{template_name}'")
                 pass
