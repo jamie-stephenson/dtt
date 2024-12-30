@@ -31,7 +31,7 @@ class ShardedDataset(IterableDataset):
         if self.nshards < world_size: 
             # Edge case: fewer shards than processes
             self.nshards_per_epoch = world_size
-            split = 'val' if 'val' in shard_paths[0] else 'train'
+            split = 'val' if 'val' in shard_paths[0].name else 'train'
             if rank==0:
                 print("There are fewer shards than processes in the {} split ({}<{}). " 
                     "Therefore the total number of main processes used when iterating over the {} dataloader will be {}."

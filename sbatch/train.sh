@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=train
-#SBATCH --partition=workers
-#SBATCH --nodes=
+#SBATCH --partition=universe
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=
-#SBATCH --gpus-per-task=
-#SBATCH --time=
+#SBATCH --cpus-per-task=4
+#SBATCH --gpus-per-task=0
+#SBATCH --time=1:00:00
 #SBATCH --output=./slurmlogs/%j_train.log
 
 # Activate the virtual environment
@@ -24,4 +24,4 @@ srun torchrun \
     --rdzv_id=$RANDOM \
     --rdzv_backend=c10d \
     --rdzv_endpoint=$master_addr \
-    -m dtt.main train -c configs/config.yaml
+    -m dtt.main train -c configs/config.yaml --debug

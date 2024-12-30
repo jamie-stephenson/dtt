@@ -12,7 +12,7 @@
 # -----DATASET-----
 # `download_data` will create, and download data to, this directory.
 # save any .txt file dataset in a directory with this path. 
-dataset: 'data/{dataset}/raw/'
+dataset: '~/data/{dataset}/raw/'
 
 # `download_data` takes a dataset name as its only argument
 # it uses this name to look up required info from the 
