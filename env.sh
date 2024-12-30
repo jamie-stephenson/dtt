@@ -6,7 +6,8 @@ mount_dir="$1"
 current_host=$(hostname)
 
 if [ "$current_host" = "node00" ]; then
-    mkdir -p slurmlogs
+    git clone https://github.com/jamie-stephenson/dtt.git $mount_dir/dtt
+    mkdir -p $mount_dir/dtt/slurmlogs
 fi
 
 #-PYTHON ENVIRONMENT--
@@ -15,7 +16,7 @@ sudo NEEDRESTART_MODE=l add-apt-repository -y ppa:deadsnakes/ppa
 sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.11 python3.11-venv python3.11-dev
 python3.11 -m venv ~/envs/dtt
 source ~/envs/dtt/bin/activate
-pip install git+https://github.com/jamie-stephenson/dtt.git
+pip install $mount_dir/dtt
 deactivate
 #---------------------     
 
