@@ -3,14 +3,19 @@
 
 mount_dir="$1"
 
-mkdir -p $mount_dir/slurmlogs
+current_host=$(hostname)
+
+if [ "$current_host" = "node00" ]; then
+    git clone https://github.com/jamie-stephenson/dtt.git $mount_dir/dtt
+    mkdir -p $mount_dir/dtt/slurmlogs
+fi
 
 #-PYTHON ENVIRONMENT--
-# If you want a specific python version you can use deadsnakes:
 sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.12-venv
 python3 -m venv ~/envs/dtt
 source ~/envs/dtt/bin/activate
-pip install https://github.com/jamie-stephenson/bpekit/releases/download/v0.1.0-test/bpekit-0.1.0-cp310-abi3-linux_x86_64.whl
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install -e $mount_dir/dtt/
 deactivate
 #---------------------     
 
