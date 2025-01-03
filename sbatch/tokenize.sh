@@ -12,5 +12,5 @@ source ~/envs/dtt/bin/activate
 # encode that same dataset  
 mpirun --bind-to none --mca btl_tcp_if_include eno1 dtt tokenize -c configs/config.yaml
 mkdir -p data
-mv ~/data data/
-srun --ntasks=$SLURM_NNODES --ntasks-per-node=1 cp -r data/* ~/data/
+mv ~/data/* ./data/
+srun --ntasks=$SLURM_JOB_NUM_NODES --ntasks-per-node=1 cp -r data/* ~/data/
