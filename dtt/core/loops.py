@@ -119,6 +119,9 @@ def train(
 
     train_time = int(time()) - int(t0)
 
+    if cfg.rank==0:
+        print(f"Training completed in {train_time:.2f} seconds.")
+
     return model
 
 def evaluate(
