@@ -1,6 +1,7 @@
 from .config import Config
-from .model import get_lr_scheduler, get_optimizer, get_dataloader
+from .train import get_lr_scheduler, get_optimizer, get_dataloader
 from .dist import setup, cleanup
+from .profile import get_profiler
 
 __all__ = [
     "Config",
@@ -8,5 +9,6 @@ __all__ = [
     "get_optimizer",
     "get_dataloader",
     "setup",
-    "cleanup"
+    "cleanup",
+    "get_profiler"
 ]
