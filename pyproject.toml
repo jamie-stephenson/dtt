@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
     "wandb==0.18.3",
-    "torch==2.4.1",
+    "torch==2.5.1",
     "bpekit @ https://github.com/jamie-stephenson/bpekit/releases/download/v0.1.0-test/bpekit-0.1.0-cp310-abi3-linux_x86_64.whl",
 ]
 
