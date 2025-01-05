@@ -11,11 +11,11 @@ if [ "$current_host" = "node00" ]; then
 fi
 
 #-PYTHON ENVIRONMENT--
-sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.12-venv
-python3 -m venv ~/envs/dtt
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export UV_PROJECT_ENVIRONMENT="~/envs/dtt"
+uv --project $mount_dir/dtt venv ~/envs/dtt --python 3.11
 source ~/envs/dtt/bin/activate
-pip install torch --index-url https://download.pytorch.org/whl/cpu
-pip install -e $mount_dir/dtt/
+uv pip install --project $mount_dir/dtt/ $mount_dir/dtt/
 deactivate
 #---------------------     
 

@@ -42,14 +42,14 @@ class ShardedDataset(IterableDataset):
         # The following attributes will be set by the worker_init_fn (iff num_workers > 0):
         self.worker_id = 0
         self.num_workers = 1
-        self.rank_rng = None
+        self.worker_rng = None
 
     def __iter__(self):
         # This shuffle is the same on all ranks:
         shuffled_path_ids = torch.randperm(self.nshards)[:self.nshards_per_epoch] 
         shard_paths = [self.shard_paths[i] for i in shuffled_path_ids]  
 
-        shard_paths = shard_paths[self.rank::self.world_size]
+        shard_paths = shard_paths[self.rank::self.world_size][self.worker_id::self.num_workers]
         for shard_path in shard_paths:
             yield from self._load_shard(shard_path)
 
@@ -59,8 +59,8 @@ class ShardedDataset(IterableDataset):
         torch_data = torch.from_numpy(data)
         max_idx = len(torch_data) - self.seq_len - 1
         ids = torch.arange(0,max_idx,self.idx_step)
-        # This shuffle is different on all ranks but the same for all workers on a given rank:
-        shuffled_ids = ids[torch.randperm(len(ids),generator=self.rank_rng)[self.worker_id::self.num_workers]] 
+        # This shuffle is different on all ranks and workers:
+        shuffled_ids = ids[torch.randperm(len(ids),generator=self.worker_rng)] 
         for idx in shuffled_ids:
             sample = torch_data[idx:idx+self.seq_len]
             targets = torch_data[idx+1:idx+self.seq_len+1]
@@ -76,7 +76,7 @@ def seed_worker(worker_id):
     """
     This is a worker_init_fn that establishes two sources of rng for use in dataloader workers:
     1) The global torch source of rng. This means that all workers on all ranks can perform the same shuffles when needed.
-    2) A local source of rng that is the same for all workers on a given rank but different for different ranks.
+    2) A local source of rng that is different for all workers across all ranks.
     """
     worker_info = torch.utils.data.get_worker_info()
     dataset = worker_info.dataset
@@ -86,8 +86,8 @@ def seed_worker(worker_id):
     global_seed = torch.initial_seed()-worker_id # Undo torch's automatic seeding
     torch.manual_seed(global_seed)
 
-    dataset.rank_rng = torch.Generator() # Create second source of rng that is rankwise unique
-    dataset.rank_rng.manual_seed(global_seed+dataset.rank)
+    dataset.worker_rng = torch.Generator() # Create second source of rng that is workerwise unique
+    dataset.worker_rng.manual_seed(global_seed+2**dataset.rank*3**worker_id)
 
 def get_dataloader(
     path: Path,

@@ -48,6 +48,7 @@ val_prompt: Hello, my name is dtt. DTT stands for
 # -----LOGGING-----
 wandb: False
 eff_batch_per_log: 100
+profile: False
 
 # -----PATH TEMPLATES-----
 templates: configs/path_templates.yaml

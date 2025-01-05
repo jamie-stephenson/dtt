@@ -87,6 +87,7 @@ class Config:
     name: str = 'dtt' 
     wandb: bool = False
     eff_batch_per_log: int = 100
+    profile: bool = False
 
     # -----PATH TEMPLATES-----
     templates: str = 'configs/path_templates.yaml'
