@@ -200,6 +200,13 @@ def train(
         is_flag=True,
         help="Print trace on error."
     ),
+    
+    profile: bool = typer.Option(
+        False,
+        '--profile',
+        is_flag=True,
+        help="Profile code execution."
+    ),
 
     ctx: typer.Context = typer.Context
 ):

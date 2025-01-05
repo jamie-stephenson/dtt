@@ -1,4 +1,4 @@
-from dtt.utils import Config
+from dtt.utils import Config, get_profiler
 from dtt.utils.dist import FnJoinable
 
 from bpekit import Tokenizer
@@ -37,13 +37,14 @@ def train(
     )
 
     dist_cm = Join([model,val]) 
+    profiler = get_profiler(cfg.rank, enabled=cfg.profile)
 
     batch = 0
     eff_batch = 0
     tokens_per_log = cfg.batch_size*cfg.grad_accumulation_steps*cfg.n_ctx*cfg.world_size*cfg.eff_batch_per_log
     t0 = t_log = time()
 
-    with dist_cm:
+    with dist_cm, profiler as p:
         for epoch in range(cfg.epochs):
 
             if cfg.rank == 0:
@@ -114,6 +115,7 @@ def train(
                     optimizer.step()
                     lr_scheduler.step()
                     optimizer.zero_grad()
+                    p.step()
 
                     eff_batch += 1     
 
