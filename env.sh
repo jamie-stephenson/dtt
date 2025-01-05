@@ -15,7 +15,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 export UV_PROJECT_ENVIRONMENT="~/envs/dtt"
 uv --project $mount_dir/dtt venv ~/envs/dtt --python 3.11
 source ~/envs/dtt/bin/activate
-uv pip install --project $mount_dir/dtt/ $mount_dir/dtt/
+uv pip install --project $mount_dir/dtt/ $mount_dir/dtt/[gpu]
 deactivate
 #---------------------     
 

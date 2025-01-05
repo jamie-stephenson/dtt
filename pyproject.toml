@@ -1,29 +1,21 @@
 [project]
 name = "dtt"
 version = "0.1.0"
+description = "Transformer-based languange model pretraining."
 requires-python = ">=3.10"
+
 dependencies = [
-    "wandb==0.18.3",
-    "torch==2.5.1",
     "bpekit @ https://github.com/jamie-stephenson/bpekit/releases/download/v0.1.0-test/bpekit-0.1.0-cp310-abi3-linux_x86_64.whl",
+    "wandb==0.18.3",
 ]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cpu", marker = "platform_system != 'Darwin'" },
+[project.optional-dependencies]
+cpu = [
+    "torch",
 ]
-
-[[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
+gpu = [
+    "torch",
+]
 
 [dependency-groups]
 dev = [
@@ -33,3 +25,30 @@ dev = [
 
 [project.scripts]
 dtt = "dtt.main:app"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+
+[tool.uv.sources]
+torch = [
+    { index = "torch-cpu", extra = "cpu" },
+    { index = "torch-gpu", extra = "gpu" },
+]
+
+
+[[tool.uv.index]]
+name = "torch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "torch-gpu"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
