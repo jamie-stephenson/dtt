@@ -22,6 +22,7 @@ def setup(using_cuda: bool):
         dist.init_process_group(backend,init_method='tcp://localhost:12345',rank=0,world_size=1)
 
 def cleanup():
+    dist.barrier()
     dist.destroy_process_group()
 
 def is_torchrun():
