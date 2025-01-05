@@ -7,5 +7,5 @@ __all__ = [
     "train_model",
     "get_dataloader",
     "setup",
-    "cleanup"
+    "cleanup",
 ]

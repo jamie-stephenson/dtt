@@ -4,8 +4,8 @@ from bpekit import encode_dataset, train_tokenizer
 import yaml
 import argparse
 
-def tokenize_data(cfg: Config):
 
+def tokenize_data(cfg: Config):
     paths = cfg.get_paths()
 
     if paths.tokens.exists() and paths.tokens.is_dir():
@@ -14,30 +14,28 @@ def tokenize_data(cfg: Config):
             f"Have you already used `{paths.tokenizer}` to encode `{paths.dataset}`?"
         )
 
-    with open(paths.dataset_config,'r') as file:
+    with open(paths.dataset_config, "r") as file:
         dataset_cfg = yaml.safe_load(file)
 
     train_tokenizer(
         path=paths.dataset,
         vocab_size=cfg.vocab_size,
         merges_path=paths.tokenizer,
-        **dataset_cfg
+        **dataset_cfg,
     )
 
     encode_dataset(
         path=paths.dataset,
         merges_path=paths.tokenizer,
         tokens_path=paths.tokens,
-        **dataset_cfg
+        **dataset_cfg,
     )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument(
-        "config",
-        help="Path to config file."
-    )
+    parser.add_argument("config", help="Path to config file.")
 
     args = parser.parse_args()
 

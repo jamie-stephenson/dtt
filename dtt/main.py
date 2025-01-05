@@ -1,4 +1,4 @@
-from dtt.commands import *
+from dtt.commands import download_data, tokenize_data, train_model
 from dtt.utils import Config
 
 import typer

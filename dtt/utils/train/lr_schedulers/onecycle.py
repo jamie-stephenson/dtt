@@ -1,10 +1,11 @@
 from torch.optim.lr_scheduler import OneCycleLR, _warn_get_lr_called_within_step
 import warnings
 
+
 class OverflowOneCycleLR(OneCycleLR):
     """OneCycleLR made tolerant to estimated `total_steps`"""
-    def get_lr(self):
 
+    def get_lr(self):
         _warn_get_lr_called_within_step(self)
 
         lrs = []
@@ -12,17 +13,22 @@ class OverflowOneCycleLR(OneCycleLR):
 
         # Check for overflow
         if step_num > self.total_steps:
-            warnings.warn("The given `total_steps` ({}) has been exceeded, constant learning rate will now be used."
-                          .format(self.total_steps))
-            final_lrs = [group['lr'] for group in self.optimizer.param_groups]
+            warnings.warn(
+                "The given `total_steps` ({}) has been exceeded, constant learning rate will now be used.".format(
+                    self.total_steps
+                )
+            )
+            final_lrs = [group["lr"] for group in self.optimizer.param_groups]
             if self.cycle_momentum:
-                final_momentum = [group['momentum'] if not self.use_beta1 else group['betas'][0] 
-                                  for group in self.optimizer.param_groups]
+                final_momentum = [
+                    group["momentum"] if not self.use_beta1 else group["betas"][0]
+                    for group in self.optimizer.param_groups
+                ]
                 for group, momentum in zip(self.optimizer.param_groups, final_momentum):
                     if self.use_beta1:
-                        group['betas'] = (momentum, *group['betas'][1:])
+                        group["betas"] = (momentum, *group["betas"][1:])
                     else:
-                        group['momentum'] = momentum
+                        group["momentum"] = momentum
             return final_lrs
 
         for group in self.optimizer.param_groups:
@@ -48,26 +54,18 @@ class OverflowOneCycleLR(OneCycleLR):
                 if self.use_beta1:
                     group["betas"] = (computed_momentum, *group["betas"][1:])  # type: ignore[possibly-undefined]
                 else:
-                    group[
-                        "momentum"
-                    ] = computed_momentum  # type: ignore[possibly-undefined]
+                    group["momentum"] = computed_momentum  # type: ignore[possibly-undefined]
 
         return lrs
 
-def get_lr_scheduler(
-    optimizer, 
-    lr_max, 
-    pct_start,
-    steps_per_epoch, 
-    epochs
-):
 
+def get_lr_scheduler(optimizer, lr_max, pct_start, steps_per_epoch, epochs):
     scheduler = OverflowOneCycleLR(
-        optimizer, 
-        lr_max, 
+        optimizer,
+        lr_max,
         pct_start=pct_start,
-        epochs=epochs, 
-        steps_per_epoch=steps_per_epoch
-    ) 
+        epochs=epochs,
+        steps_per_epoch=steps_per_epoch,
+    )
 
     return scheduler

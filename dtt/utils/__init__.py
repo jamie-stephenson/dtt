@@ -10,5 +10,5 @@ __all__ = [
     "get_dataloader",
     "setup",
     "cleanup",
-    "get_profiler"
+    "get_profiler",
 ]

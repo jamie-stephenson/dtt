@@ -5,25 +5,20 @@ from bpekit import download_dataset
 import argparse
 import yaml
 
-def download_data(cfg: Config):
 
+def download_data(cfg: Config):
     paths = cfg.get_paths()
 
-    with open(paths.dataset_config,'r') as file:
+    with open(paths.dataset_config, "r") as file:
         dataset_cfg = yaml.safe_load(file)
 
-    download_dataset(
-        path=paths.dataset,
-        **dataset_cfg
-    )
+    download_dataset(path=paths.dataset, **dataset_cfg)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument(
-        "config",
-        help="Path to config file."
-    )
+    parser.add_argument("config", help="Path to config file.")
 
     args = parser.parse_args()
 
