@@ -11,12 +11,11 @@ if [ "$current_host" = "node00" ]; then
 fi
 
 #-PYTHON ENVIRONMENT--
-# If you want a specific python version you can use deadsnakes:
-sudo NEEDRESTART_MODE=l add-apt-repository -y ppa:deadsnakes/ppa
-sudo NEEDRESTART_MODE=l apt-get -o DPkg::Lock::Timeout=60 -y install python3.11 python3.11-venv python3.11-dev
-python3.11 -m venv ~/envs/dtt
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export UV_PROJECT_ENVIRONMENT="~/envs/dtt"
+uv --project $mount_dir/dtt venv ~/envs/dtt --python 3.11
 source ~/envs/dtt/bin/activate
-pip install $mount_dir/dtt
+uv pip install --project $mount_dir/dtt/ $mount_dir/dtt/
 deactivate
 #---------------------     
 
