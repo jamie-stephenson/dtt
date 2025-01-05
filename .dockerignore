@@ -10,6 +10,10 @@
 data/
 tokenizers/
 
+# Logs
+profile/
+slurmlogs/
+
 # Build directories
 dist/
 build/
