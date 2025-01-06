@@ -2,7 +2,6 @@ import torch.profiler
 
 import os
 
-
 class NullProfiler:
     """A do-nothing profiler that matches the interface of torch.profiler."""
 
@@ -22,7 +21,7 @@ def get_profiler(rank, enabled):
 
         schedule = torch.profiler.schedule(wait=2, warmup=2, active=6, repeat=1)
 
-        trace_handler = torch.profiler.tensorboard_trace_handler("profile", str(rank))
+        trace_handler = torch.profiler.tensorboard_trace_handler("profile", f"rank{rank}")
 
         return torch.profiler.profile(
             activities=[
