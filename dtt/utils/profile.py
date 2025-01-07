@@ -21,7 +21,7 @@ def get_profiler(rank, enabled):
 
         schedule = torch.profiler.schedule(wait=2, warmup=2, active=6, repeat=1)
 
-        trace_handler = torch.profiler.tensorboard_trace_handler("profile", f"rank{rank}")
+        trace_handler = torch.profiler.tensorboard_trace_handler("profile", f"rank{rank}", use_gzip=True)
 
         return torch.profiler.profile(
             activities=[
