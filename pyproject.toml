@@ -3,7 +3,6 @@ name = "dtt"
 version = "0.1.0"
 description = "Transformer-based languange model pretraining."
 requires-python = ">=3.10"
-
 dependencies = [
     "bpekit @ https://github.com/jamie-stephenson/bpekit/releases/download/v0.1.0-test/bpekit-0.1.0-cp310-abi3-linux_x86_64.whl",
     "wandb==0.18.3",
@@ -41,6 +40,13 @@ torch = [
     { index = "torch-gpu", extra = "gpu" },
 ]
 
+[tool.uv]
+conflicts = [
+    [
+      { extra = "torch-v1" },
+      { extra = "torch-v2" },
+    ],
+]
 
 [[tool.uv.index]]
 name = "torch-cpu"
