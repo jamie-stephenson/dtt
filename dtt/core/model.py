@@ -84,8 +84,8 @@ class MLP(nn.Module):
         dropout: float,
     ):
         super().__init__()
-        self.layer_1 = nn.Linear(d_model, d_model * d_mlp)
-        self.layer_2 = nn.Linear(d_model * d_mlp, d_model)
+        self.layer_1 = nn.Linear(d_model, d_mlp)
+        self.layer_2 = nn.Linear(d_mlp, d_model)
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):
