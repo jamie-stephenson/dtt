@@ -43,8 +43,8 @@ torch = [
 [tool.uv]
 conflicts = [
     [
-      { extra = "torch-v1" },
-      { extra = "torch-v2" },
+      { extra = "cpu" },
+      { extra = "gpu" },
     ],
 ]
 
