@@ -77,9 +77,9 @@ def train(
 
                 loss.backward()
 
-                if (
-                    batch % cfg.grad_accumulation_steps == 0
-                ):  # Only take step when gradients have accumulated
+                # Only take step when gradients have accumulated
+                if batch % cfg.grad_accumulation_steps == 0:  
+                    
                     # -----------VALIDATION-&-LOGGING--------------
 
                     if eff_batch % cfg.eff_batch_per_log == 0 and cfg.rank == 0:
@@ -99,7 +99,7 @@ def train(
                             )
                         else:
                             print(
-                                f"eff batch {eff_batch:.0f} | loss: {loss.item():.2f} | dt: {dt*1000:.2f}ms | tok/s: {tokens_per_log/dt:.2f}"
+                                f"eff batch {eff_batch:.0f} | loss: {loss.item():.2f} | dt: {dt * 1000:.2f}ms | tok/s: {tokens_per_log / dt:.2f}"
                             )
 
                     if (

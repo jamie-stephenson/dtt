@@ -96,8 +96,10 @@ def seed_worker(worker_id):
     global_seed = torch.initial_seed() - worker_id  # Undo torch's automatic seeding
     torch.manual_seed(global_seed)
 
-    dataset.worker_rng = torch.Generator() # Create second source of rng that is workerwise unique
+    # Create second source of rng that is workerwise unique
+    dataset.worker_rng = torch.Generator()
     dataset.worker_rng.manual_seed(global_seed + 2**dataset.rank * 3**worker_id)
+
 
 def get_dataloader(path: Path, split: str, cfg: Config) -> DataLoader:
     paths = [path / shard for shard in sorted(os.listdir(path)) if split in shard]
