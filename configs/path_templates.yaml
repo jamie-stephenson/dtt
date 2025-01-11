@@ -12,6 +12,7 @@
 # -----DATASET-----
 # `download_data` will create, and download data to, this directory.
 # save any .txt file dataset in a directory with this path. 
+# WARNING: In a distibuted setting, this will be created on all nodes.
 dataset: '~/data/{dataset}/raw/'
 
 # `download_data` takes a dataset name as its only argument
@@ -20,6 +21,7 @@ dataset: '~/data/{dataset}/raw/'
 dataset_config: 'configs/project_datasets/{dataset}.yaml'
 
 # `tokenize_data` will create, save the encoded dataset to, this directory.
+# WARNING: In a distibuted setting, this will be created on all nodes.
 tokens: '~/data/{dataset}/tokens/'
 # -----------------
 
@@ -31,6 +33,8 @@ model_config: './models/{name}_{time}/config.yaml'
 
 # -----TOKENIZER-----
 # Any tokenizer trained will have its merges saved here  
+# WARNING: In a distibuted setting, this will NOT be created on all nodes.
+# It is therfore expected that this will be a path to file on a shared filesystem.
 tokenizer: 'tokenizers/{dataset}_{vocab_size}.pkl'
 # -------------------
 
