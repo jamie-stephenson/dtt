@@ -23,6 +23,7 @@ def train_model(cfg: Config):
     torch.manual_seed(cfg.seed)
 
     setup(cfg.cuda)
+    torch.cuda.set_device(cfg.device)
 
     cfg.rank = dist.get_rank()
     cfg.world_size = dist.get_world_size()
