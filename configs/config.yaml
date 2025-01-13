@@ -22,6 +22,11 @@ dataset: wiki
 overlap: 4
 n_workers: 2
 
+# Min allowed ratio between smallest and largest number of shards
+# allocated to a specific rank process before we utilise a shared
+# shard strategy. See `dtt.utils.get_dataloader` for details.
+min_loader_ratio: 0.85 
+
 # -----RESOURCES-----
 cuda: True
 autocast: True

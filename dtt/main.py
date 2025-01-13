@@ -156,6 +156,18 @@ def train(
         help="Number of subprocesses to use for dataloading each GPU."
     ),
 
+    min_loader_ratio: int = typer.Option(
+        None,
+        '--min-loader-ratio',
+        '--min_loader_ratio',
+        '-mlr',
+        help=(
+            "Min allowed ratio between smallest and largest number of shards "
+            "allocated to a specific rank process before we utilise a shared "
+            "shard strategy. See `dtt.utils.get_dataloader` for details."
+        )
+    ),
+
     wandb: bool = typer.Option(
         False,
         '--wandb/--no-wandb',

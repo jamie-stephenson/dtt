@@ -70,6 +70,7 @@ class Config:
     dataset: str = "fineweb-edu"
     overlap: int = 8
     n_workers: int = 2
+    min_loader_ratio: float = 0.85
 
     # -----RESOURCES-----
     cuda: bool = True
