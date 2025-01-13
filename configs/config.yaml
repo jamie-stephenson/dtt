@@ -1,6 +1,11 @@
 # -----MODEL-----
 d_mlp: 256
 d_model: 64
+
+# Whether to attempt to use flash attention.
+# torch will gracefully handle cases where required
+# resources are unavailble
+flash_attention: True
 mask_type: causal
 n_blocks: 6
 n_ctx: 32

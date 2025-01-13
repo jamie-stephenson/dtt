@@ -35,6 +35,7 @@ class MultiHeadAttention(nn.Module):
         device: str,
         dropout: float,
         mask_type: str,
+        flash_attention: bool
     ):
         super().__init__()
         assert d_model % n_heads == 0, "d_model must be divisible by n_heads"
@@ -58,6 +59,8 @@ class MultiHeadAttention(nn.Module):
                 "mask", torch.ones(n_ctx, n_ctx).view(1, 1, n_ctx, n_ctx)
             )
 
+        self.flash_attention = flash_attention
+
     def forward(self, x):
         B, T, C = x.shape  # B,T,C = batch size,`n_ctx`,`d_model`
 
@@ -69,13 +72,21 @@ class MultiHeadAttention(nn.Module):
         attention_pattern = q @ k.transpose(-2, -1) / sqrt(C / self.n_heads)
         # (B,nh,T,C/nh)*(B,nh,C/nh,T) -> (B,nh,T,T)
 
-        attention_pattern = attention_pattern.masked_fill(
-            self.mask[:, :, :T, :T] == 0, -torch.inf
-        )
-        attention_pattern = self.attn_dropout(F.softmax(attention_pattern, dim=-1))
+        if self.flash_attention:
+            v_attended_to = F.scaled_dot_product_attention(
+                q, k, v, 
+                is_causal=True, 
+                dropout_p=self.attn_dropout.p if self.training else 0.0
+            )
 
-        v_attended_to = attention_pattern @ v
-        # (B,nh,T,T)*(B,nh,T,C/nh)  -> (B,nh,T,C/nh)
+        else:
+            attention_pattern = attention_pattern.masked_fill(
+                self.mask[:, :, :T, :T] == 0, -torch.inf
+            )
+            attention_pattern = self.attn_dropout(F.softmax(attention_pattern, dim=-1))
+
+            v_attended_to = attention_pattern @ v
+            # (B,nh,T,T)*(B,nh,T,C/nh)  -> (B,nh,T,C/nh)
 
         v_attended_to = v_attended_to.transpose(1, 2).contiguous().view(B, T, C)
         # (B,nh,T,C/nh) -> (B,T,C)

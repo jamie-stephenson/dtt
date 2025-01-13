@@ -51,6 +51,7 @@ class Config:
     # -----MODEL-----
     d_mlp: int = 128
     d_model: int = 32
+    flash_attention: bool = True
     mask_type: str = "causal"
     n_blocks: int = 12
     n_ctx: int = 128
@@ -146,16 +147,21 @@ class Config:
         # Handle attributes that depend on system state (e.g. available resources)
 
         # cuda
-        if config.cuda:
-            config.cuda = cuda.is_available()
+        config.cuda = config.cuda and cuda.is_available()
 
         config.device_id = [int(os.getenv("LOCAL_RANK", "0"))] if config.cuda else None
         config.device = f"cuda:{config.device_id[0]}" if config.cuda else "cpu"
         config.device_type = "cuda" if config.cuda else "cpu"
 
         # autocast
-        if config.autocast:
-            config.autocast = config.cuda and cuda.get_device_properties(0).major >= 8
+        config.autocast = (
+            config.autocast and
+            config.cuda and 
+            cuda.get_device_properties(0).major >= 8
+        )
+
+        # flash_attention
+        config.flash_attention = config.flash_attention and config.cuda
 
         # optimizer
         if config.optimizer.params.get("fused"):

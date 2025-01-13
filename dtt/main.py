@@ -148,6 +148,17 @@ def train(
         help="If set, attempts to use bfloat16 autocast (if available on system)."
     ),
 
+    flash_attention: bool = typer.Option(
+        False,
+        '--flash-attention',
+        '--flash_attention',
+        '--flash-attn',
+        '--flash_attn',
+        '-fa',
+        is_flag=True,
+        help="If set, attempts to use flash attention (if system allows)."
+    ),
+
     n_workers: int = typer.Option(
         None,
         '--n-workers',
