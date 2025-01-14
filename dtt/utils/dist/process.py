@@ -1,11 +1,12 @@
+import torch
 import torch.distributed as dist
 
 import os
 
-def setup(using_cuda: bool):
+def setup(device: str):
     """setup function that needs to be ran on each process."""
     
-    if using_cuda: # gpu
+    if "cuda" in device: # gpu
         assert dist.is_nccl_available(), "nccl backend unavailable"
         backend = 'nccl'
     else: # cpu
@@ -20,6 +21,9 @@ def setup(using_cuda: bool):
         # If we aren't using distributed training we still need to 
         # init_process_group to keep scripts distribution agnostic.
         dist.init_process_group(backend,init_method='tcp://localhost:12345',rank=0,world_size=1)
+
+    if "cuda" in device:
+        torch.cuda.set_device(device)
 
 def cleanup():
     dist.barrier()
