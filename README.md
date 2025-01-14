@@ -2,6 +2,15 @@
 
 DTT is a Python project for transformer-based language model pretraining. It provides a command-line interface for end-to-end workflows and supports multi-node distributed pretraining using PyTorch DDP with Slurm sbatch scripts for easy job scheduling.
 
+<figure>
+    <img src="train_loss.png" alt="Alt text" />
+    <figcaption>
+        <p align="center">
+            <em>Training a 124 million parameter model on 10 billion tokens</em>
+        </p>
+    </figcaption>
+</figure>
+
 ## 🚀 Workflow at a Glance
 - **Download** a dataset of your choice using `dtt download`.
 - **Build and apply** custom tokenizers with `dtt tokenize`.
