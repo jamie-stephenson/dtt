@@ -4,7 +4,7 @@ def get_optimizer(
     model,
     weight_decay, 
     fused,
-    betas = (0.9,0.999) 
+    betas = (0.9, 0.95) 
 ):
     
     optimizer = AdamW(
