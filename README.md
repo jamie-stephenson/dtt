@@ -36,12 +36,12 @@ pip install . torch --index-url https://download.pytorch.org/whl/cpu
 dtt download -d DATASET 
 ```
 
-- `DATASET`: the name of a [Hugging Face](https://huggingface.co/datasets) dataset of your choice. Alternatively you can use a .txt document as your dataset (see [configs](#️-config-files) for details).
+- `DATASET`: the name of a [Hugging Face](https://huggingface.co/datasets) dataset of your choice. Alternatively you can use a .txt document as your dataset (see [configs](#️-⚙️-config-files) for details).
 4. **Tokenize** this dataset:
 ```bash
 dtt tokenize -c CONFIG 
 ```
-- `CONFIG`: path to config file (default is `configs/config.yaml`, see [configs](#️-config-files) for details)
+- `CONFIG`: path to config file (default is `configs/config.yaml`, see [configs](#️-⚙️-config-files) for details)
 5. **Train** a model:
 ```bash
 dtt train -c CONFIG
