@@ -127,13 +127,14 @@ class TransformerBlock(nn.Module):
         device: str,
         dropout: float,
         mask_type: str,
+        flash_attention: bool
     ):
         super().__init__()
 
         self.layernorm_1 = nn.LayerNorm(d_model)
 
         self.attention = MultiHeadAttention(
-            n_ctx, d_model, n_heads, device, dropout, mask_type
+            n_ctx, d_model, n_heads, device, dropout, mask_type, flash_attention
         )
 
         self.layernorm_2 = nn.LayerNorm(d_model)
@@ -163,6 +164,7 @@ class Transformer(nn.Module):
                 cfg.device,
                 cfg.dropout,
                 cfg.mask_type,
+                cfg.flash_attention
             )
             for _ in range(cfg.n_blocks)
         ])
