@@ -11,6 +11,17 @@ DTT is a Python project for transformer-based language model pretraining. It pro
     </figcaption>
 </figure>
 
+0 tokens of training: 
+```
+Once upon a combinesworthetermined pillowsMelbirdunas EN blended interfaceWorld reign Acc 
+```
+10 billion tokens of training: 
+```
+Once upon a time it was a time when those in the North wore a distinctive tunic that we could not understand.
+Once upon a time there was a major earthquake, we would expect the current event to have many more consequences.
+Once upon a time, some of the great inventions of our times would be found at the Palace of Babylon.
+```
+
 ## 🚀 Workflow at a Glance
 - **Download** a dataset of your choice using `dtt download`.
 - **Build and apply** custom tokenizers with `dtt tokenize`.
