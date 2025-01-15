@@ -101,9 +101,9 @@ sbatch sbatch/tokenize.sh
 ```bash
 sbatch sbatch/train.sh
 ```
-Make sure you configure the SBATCH directives (e.g. `--gpus-per-task`) in these scripts to be compatible with the resources available.
+Make sure you configure the SBATCH directives (e.g. `--gpus-per-task`) in these scripts to be compatible with the resources available. You must also ensure that all nodes have access to the same (or identical copies of your) python enivronment. 
 
-You can configure your own Slurm cluster using the [Slurmify](https://github.com/jamie-stephenson/slurmify) Debian package. This project includes the `env.sh` script which can be passed as an argument to `slurmify` to configure a suitable training environment on all nodes.
+You can configure your own Slurm cluster using the [Slurmify](https://github.com/jamie-stephenson/slurmify) Debian package. DTT includes the `env.sh` script which can be passed as an argument to `slurmify` to configure a suitable training environment on all nodes.
 
 
 ## ⚙️ Config Files
