@@ -1,30 +1,30 @@
 # -----MODEL-----
-d_mlp: 256
-d_model: 64
+d_mlp: 3072
+d_model: 768
 
 # Whether to attempt to use flash attention.
 # torch will gracefully handle cases where required
 # resources are unavailble
 flash_attention: True
 mask_type: causal
-n_blocks: 6
-n_ctx: 32
-n_heads: 8
+n_blocks: 12
+n_ctx: 1024
+n_heads: 12
 name: dtt
 seed: 91
 
 # -----TOKENIZER-----
-vocab_size: 16384
+vocab_size: 49152
 
 # -----TRAINING-----
-batch_size: 32
+batch_size: 64
 epochs: 1
 grad_accumulation_steps: 1
-dropout: 0.2
+dropout: 0.0
 
 # -----DATASET-----
 dataset: wiki
-overlap: 4
+overlap: 16
 n_workers: 2
 
 # Min allowed ratio between smallest and largest number of shards
@@ -40,24 +40,24 @@ autocast: True
 optimizer:
   name: adamw
   params:
-    weight_decay: 0.0001
+    weight_decay: 0.01
     fused: True
 
 # -----LR Schedule-----
 lr_schedule:
   name: onecycle
   params:
-    lr_max: 0.01
-    pct_start: 0.1 # Percentage of training to increase lr for 
+    lr_max: 0.0006
+    pct_start: 0.04 # Percentage of training to increase lr for 
 
 # -----VALIDATION----- 
-log_per_val: 1000
+log_per_val: 100
 temp: 1
 val_prompt: Hello, my name is dtt. DTT stands for
 
 # -----LOGGING-----
 wandb: False
-eff_batch_per_log: 100
+eff_batch_per_log: 50
 profile: False
 
 # -----PATH TEMPLATES-----
