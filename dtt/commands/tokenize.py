@@ -15,8 +15,11 @@ def tokenize_data(cfg: Config):
             f"Have you already used `{paths.tokenizer}` to encode `{paths.dataset}`?"
         )
 
-    with open(paths.dataset_config, "r") as file:
-        dataset_cfg = yaml.safe_load(file)
+    if paths.dataset_config.exists():
+        with open(paths.dataset_config, "r") as file:
+            dataset_cfg = yaml.safe_load(file)
+    else:
+        dataset_cfg = {}    
 
     rank, world_size = get_rank_and_world_size()
 

@@ -220,6 +220,8 @@ def get_dataloader(path: Path, split: str, cfg: Config) -> DataLoader:
     the training dataset).
     """
     paths = [path / shard for shard in sorted(os.listdir(path)) if split in shard]
+
+    assert len(paths) > 0,f"No shards found for the {split} split."
     
     quotient, remainder = divmod(len(paths), cfg.world_size)
     loader_ratio = 1 if remainder==0 else quotient / (quotient + 1)

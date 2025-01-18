@@ -15,8 +15,8 @@
 # WARNING: In a distibuted setting, this will be created on all nodes.
 dataset: '~/data/{dataset}/raw/'
 
-# `download_data` takes a dataset name as its only argument
-# it uses this name to look up required info from the 
+# `download_data` takes a dataset name and
+# uses it to look up required info from the 
 # user defined dataset config file at this path.
 dataset_config: 'configs/project_datasets/{dataset}.yaml'
 
