@@ -62,17 +62,18 @@ class MultiHeadAttention(nn.Module):
         self.flash_attention = flash_attention
 
     def forward(self, x):
-        B, T, C = x.shape  # B,T,C = batch size,`n_ctx`,`d_model`
+        B, T, C = x.shape 
 
-        q, k, v = self.qkv(x).chunk(3, dim=-1)  # (B,T,3C) -> 3 lots of (B,T,C)
-        q = q.view(B, T, self.n_heads, -1).transpose(1, 2)  # (B,T,C) -> (B,nh,T,C/nh)
-        k = k.view(B, T, self.n_heads, -1).transpose(1, 2)  # (B,T,C) -> (B,nh,T,C/nh)
-        v = v.view(B, T, self.n_heads, -1).transpose(1, 2)  # (B,T,C) -> (B,nh,T,C/nh)
+        # (B, T, C) -> (B, T, 3C) -> (B, T, C) x 3
+        q, k, v = self.qkv(x).chunk(3, dim=-1) 
 
-        attention_pattern = q @ k.transpose(-2, -1) / sqrt(C / self.n_heads)
-        # (B,nh,T,C/nh)*(B,nh,C/nh,T) -> (B,nh,T,T)
+        # (B, T, C) -> (B, T, n_heads, C//n_heads) -> (B, n_heads, T, C//n_heads)
+        q = q.view(B, T, self.n_heads, C//self.n_heads).transpose(1, 2)
+        k = k.view(B, T, self.n_heads, C//self.n_heads).transpose(1, 2)
+        v = v.view(B, T, self.n_heads, C//self.n_heads).transpose(1, 2)
 
         if self.flash_attention:
+            # (B, n_heads, T, C//n_heads) x 3 -> (B, n_heads, T, C//n_heads)
             v_attended_to = F.scaled_dot_product_attention(
                 q, k, v, 
                 is_causal=True, 
@@ -80,19 +81,22 @@ class MultiHeadAttention(nn.Module):
             )
 
         else:
+            # (B, n_heads, T, T) -> (B, n_heads, T, T)
+            attention_pattern = q @ k.transpose(-2, -1) / sqrt(C // self.n_heads)
+
             attention_pattern = attention_pattern.masked_fill(
                 self.mask[:, :, :T, :T] == 0, -torch.inf
             )
+
             attention_pattern = self.attn_dropout(F.softmax(attention_pattern, dim=-1))
 
+            # (B, n_heads, T, T) @ (B, n_heads, T, C//n_heads) -> (B, n_heads, T, C//n_heads)
             v_attended_to = attention_pattern @ v
-            # (B,nh,T,T)*(B,nh,T,C/nh)  -> (B,nh,T,C/nh)
 
+        # (B, n_heads, T, C//n_heads) -> (B, T, n_heads, C//n_heads) -> (B, T, C)
         v_attended_to = v_attended_to.transpose(1, 2).contiguous().view(B, T, C)
-        # (B,nh,T,C/nh) -> (B,T,C)
 
         output = self.resid_dropout(self.out(v_attended_to))
-        # (B,T,C) -> (B,T,C)
 
         return output
 
