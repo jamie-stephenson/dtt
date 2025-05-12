@@ -75,7 +75,8 @@ def train(
                     logits = model(x)
                     loss = F.cross_entropy(logits.view(-1, cfg.vocab_size), y.view(-1))
 
-                loss.backward()
+                scaled_loss = loss / cfg.grad_accumulation_steps                
+                scaled_loss.backward()
 
                 # Only take step when gradients have accumulated
                 if batch % cfg.grad_accumulation_steps == 0:  
